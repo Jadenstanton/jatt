@@ -2,7 +2,13 @@
 
 ## Installation
 
-'''pip install git+https://github.com/jadenstanton/jatt.git'''
+---
+
+```pip install git+https://github.com/jadenstanton/jatt.git```
+
+---
+
+## Usage
 
 ```shell
 # Adding a new task
