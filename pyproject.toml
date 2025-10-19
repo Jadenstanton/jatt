@@ -1,0 +1,23 @@
+[project]
+name = "jatt"
+version = "1.3.0"
+description = "A CLI application to manage tasks."
+authors = [{ name = "Jaden", email = "jaden.stanton6@gmail.com" }]
+
+[project.scripts]
+jatt = "jatt:main"
+
+[tool.uv]
+package = true
+
+[tool.setuptools]
+py-modules = ["jatt"]
+
+[tool.ruff]
+line-length = 120
+select = ["I"]
+fix = true
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
