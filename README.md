@@ -2,11 +2,7 @@
 
 ## Installation
 
----
-
 ```pip install git+https://github.com/jadenstanton/jatt.git```
-
----
 
 ## Usage
 
