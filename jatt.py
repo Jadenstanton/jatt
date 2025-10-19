@@ -12,8 +12,8 @@ class Task(TypedDict):
     id: int
     description: str
     status: TASK_STATUS
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: str
+    updatedAt: str
 
 
 # Database
@@ -52,7 +52,7 @@ def task_add(args: Namespace):
 
     date = datetime.now()
 
-    t: Task = {
+    task: Task = {
         "id": find_next_id(tasks),
         "description": args.description,
         "status": "todo",
@@ -60,12 +60,17 @@ def task_add(args: Namespace):
         "updatedAt": date.strftime("%A, %d. %B %Y %I:%M%p"),
     }
 
-    tasks.append(t)
+    tasks.append(task)
     save_task_to_databse(tasks)
-    print(f"Task {t['id']} successfully added to list.\n {t}")
+    print(f"Task {task['id']} successfully added to list.\n\n")
+
+    print(f"{'ID':<4} {'STATUS':<12} {'CREATED AT':<20} {'UPDATED AT':<20} DESCRIPTION")
+    print(
+        f"{task['id']:<4} {task['status']:<12} {task['createdAt']:<20} {task['updatedAt']:<20} {task['description']}"
+    )
 
 
-def task_update(args: Namespace):
+def task_update(args: Namespace) -> None:
     tasks = load_database()
     task = find_by_id(tasks, args.id)
     if not task:
@@ -73,10 +78,15 @@ def task_update(args: Namespace):
 
     task["description"] = args.description
     save_task_to_databse(tasks)
-    print(f"Task {task['id']} description successfully updated.")
+    print(f"Task {task['id']} description successfully updated.\n\n")
+
+    print(f"{'ID':<4} {'STATUS':<12} {'CREATED AT':<20} {'UPDATED AT':<20} DESCRIPTION")
+    print(
+        f"{task['id']:<4} {task['status']:<12} {task['createdAt']:<20} {task['updatedAt']:<20} {task['description']}"
+    )
 
 
-def task_delete(args: Namespace):
+def task_delete(args: Namespace) -> None:
     tasks = load_database()
 
     before = len(tasks)
@@ -88,7 +98,7 @@ def task_delete(args: Namespace):
     print(f"Task {args.id} successfully deleted")
 
 
-def task_mark_in_progress(args: Namespace):
+def task_mark_in_progress(args: Namespace) -> None:
     tasks = load_database()
 
     task = find_by_id(tasks, args.id)
@@ -99,7 +109,7 @@ def task_mark_in_progress(args: Namespace):
     save_task_to_databse(tasks)
 
 
-def task_mark_done(args: Namespace):
+def task_mark_done(args: Namespace) -> None:
     tasks = load_database()
     task = find_by_id(tasks, args.id)
 
@@ -110,7 +120,7 @@ def task_mark_done(args: Namespace):
     save_task_to_databse(tasks)
 
 
-def task_list(args: Namespace):
+def task_list(args: Namespace) -> None:
     tasks = load_database()
     valid_statuses = ["done", "in-progress", "all", "todo"]
 
@@ -135,7 +145,7 @@ def task_list(args: Namespace):
 
 def build_parser() -> ArgumentParser:
     p = ArgumentParser(description="Just another task tracker")
-    sub = p.add_subparsers(dest="command")
+    sub = p.add_subparsers(dest="command", required=True)
 
     p_add = sub.add_parser("add", help="Command to add a task")
     p_add.add_argument("description")
